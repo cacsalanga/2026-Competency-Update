@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>2026 Competency Update</title>
+<style>
+  :root{
+    --navy:#1F3864;
+    --blue:#2E75B6;
+    --gray-text:#595959;
+    --light-bg:#F4F6F9;
+    --card-border:#E3E7EC;
+    --green:#2E7D32;
+    --amber:#C6790C;
+    --amber-bg:#FCEFDC;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:Calibri, "Segoe UI", Arial, sans-serif;
+    background:#ffffff;
+    padding:40px 48px;
+    color:#2B2B2B;
+  }
+  h1{
+    color:var(--navy);
+    font-size:28px;
+    margin:0 0 4px 0;
+  }
+  .subtitle{
+    color:var(--gray-text);
+    font-size:13px;
+    margin:0 0 28px 0;
+  }
+  .cards{
+    display:flex;
+    gap:20px;
+    align-items:flex-start;
+  }
+  .card{
+    flex:1;
+    background:var(--light-bg);
+    border:1px solid var(--card-border);
+    border-radius:10px;
+    padding:20px;
+    cursor:pointer;
+    box-shadow:0 2px 6px rgba(96,107,122,0.15);
+    transition:transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    position:relative;
+    overflow:hidden;
+  }
+  .card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 18px rgba(96,107,122,0.22);
+  }
+  .card.expanded{
+    background:#ffffff;
+    box-shadow:0 12px 26px rgba(31,56,100,0.22);
+    transform:translateY(-4px) scale(1.015);
+  }
+  .card-title{
+    color:var(--navy);
+    font-size:16px;
+    font-weight:bold;
+    margin-bottom:6px;
+  }
+  .card-target{
+    color:var(--gray-text);
+    font-size:11px;
+    margin-bottom:16px;
+  }
+  .item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+    opacity:0;
+    transform:translateX(-8px);
+    animation:none;
+  }
+  .card.expanded .item{
+    animation:slideIn 0.35s ease forwards;
+  }
+  .card.expanded .item:nth-child(1){animation-delay:0.05s;}
+  .card.expanded .item:nth-child(2){animation-delay:0.15s;}
+  .card.expanded .item:nth-child(3){animation-delay:0.25s;}
+  @keyframes slideIn{
+    to{opacity:1; transform:translateX(0);}
+  }
+  .card:not(.expanded) .item{
+    opacity:1;
+    transform:none;
+  }
+  .badge{
+    width:22px;
+    height:22px;
+    min-width:22px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:12px;
+    font-weight:bold;
+  }
+  .badge.done{background:var(--green);}
+  .badge.pending{background:var(--amber);}
+  .item-text{font-size:11.5px;color:#3B3B3B;}
+  .bar-track{
+    height:14px;
+    border-radius:8px;
+    background:#DFE3E8;
+    margin-top:18px;
+    overflow:hidden;
+  }
+  .bar-fill{
+    height:100%;
+    border-radius:8px;
+    background:var(--blue);
+    width:0%;
+    transition:width 0.9s cubic-bezier(.2,.8,.2,1);
+  }
+  .bar-label{
+    margin-top:6px;
+    font-size:10.5px;
+    font-weight:bold;
+    color:var(--blue);
+  }
+  .status-pill{
+    display:inline-block;
+    margin-top:18px;
+    padding:6px 14px;
+    border-radius:16px;
+    background:var(--amber-bg);
+    color:var(--amber);
+    font-size:10.5px;
+    font-weight:bold;
+  }
+  .hint{
+    font-size:10px;
+    color:#9AA3AF;
+    margin-top:14px;
+    letter-spacing:0.3px;
+  }
+  .roadmap{
+    margin-top:48px;
+  }
+  .roadmap-label{
+    font-size:11px;
+    font-weight:bold;
+    color:var(--gray-text);
+    letter-spacing:1px;
+    margin-bottom:20px;
+  }
+  .roadmap-line{
+    position:relative;
+    height:2px;
+    background:#C7CCD3;
+    margin:0 60px;
+  }
+  .milestone{
+    position:absolute;
+    top:-8px;
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    background:var(--blue);
+    border:2.5px solid #fff;
+    box-shadow:0 0 0 1px #C7CCD3;
+    transition:transform 0.2s ease, background 0.2s ease;
+  }
+  .milestone.active{
+    background:var(--navy);
+    transform:scale(1.3);
+  }
+  .milestone-label{
+    position:absolute;
+    top:16px;
+    transform:translateX(-50%);
+    font-size:10.5px;
+    font-weight:bold;
+    color:var(--navy);
+    white-space:nowrap;
+  }
+</style>
+</head>
+<body>
+
+  <h1>2026 Competency Update</h1>
+  <p class="subtitle">Development milestones across three focus areas — click a card for details</p>
+
+  <div class="cards" id="cards">
+
+    <div class="card" data-card="0" data-milestone="0">
+      <div class="card-title">Reports Generation</div>
+      <div class="card-target">Target: 31 Aug 2026</div>
+      <div class="item"><div class="badge done">&#10003;</div><div class="item-text">PRINC2-ABORPA (Aerial FOC)</div></div>
+      <div class="item"><div class="badge done">&#10003;</div><div class="item-text">PRINC2-NARRA (Underground)</div></div>
+      <div class="item"><div class="badge pending">&#9675;</div><div class="item-text">PRINC2-ROXASP (Underground)</div></div>
+      <div class="bar-track"><div class="bar-fill" data-pct="67"></div></div>
+      <div class="bar-label">67% complete</div>
+      <div class="hint">Click to view details</div>
+    </div>
+
+    <div class="card" data-card="1" data-milestone="1">
+      <div class="card-title">AI Training</div>
+      <div class="card-target">Target: 31 Aug 2026</div>
+      <div class="item"><div class="badge done">&#10003;</div><div class="item-text">6 of 10 AI Acumens completed</div></div>
+      <div class="item"><div class="badge pending">&#9675;</div><div class="item-text">Workday Learning modules</div></div>
+      <div class="bar-track"><div class="bar-fill" data-pct="60"></div></div>
+      <div class="bar-label">60% complete</div>
+      <div class="hint">Click to view details</div>
+    </div>
+
+    <div class="card" data-card="2" data-milestone="2">
+      <div class="card-title">Leadership</div>
+      <div class="card-target">Target: 31 Oct 2026</div>
+      <div class="item"><div class="badge done">&#10003;</div><div class="item-text">Mentor accepted</div></div>
+      <div class="item"><div class="badge pending">&#9675;</div><div class="item-text">Attend Mentoring 101</div></div>
+      <div class="status-pill">In progress</div>
+      <div class="hint">Click to view details</div>
+    </div>
+
+  </div>
+
+  <div class="roadmap">
+    <div class="roadmap-label">ROADMAP</div>
+    <div class="roadmap-line" id="roadmapLine">
+      <div class="milestone" style="left:0%" data-m="0"></div>
+      <div class="milestone-label" style="left:0%">31 Aug 2026</div>
+      <div class="milestone" style="left:50%" data-m="1"></div>
+      <div class="milestone-label" style="left:50%">31 Aug 2026</div>
+      <div class="milestone" style="left:100%" data-m="2"></div>
+      <div class="milestone-label" style="left:100%">31 Oct 2026</div>
+    </div>
+  </div>
+
+<script>
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      const isExpanded = card.classList.contains('expanded');
+      cards.forEach(c => {
+        c.classList.remove('expanded');
+        c.querySelectorAll('.bar-fill').forEach(b => b.style.width = '0%');
+      });
+      document.querySelectorAll('.milestone').forEach(m => m.classList.remove('active'));
+
+      if (!isExpanded){
+        card.classList.add('expanded');
+        const fill = card.querySelector('.bar-fill');
+        if (fill){
+          requestAnimationFrame(() => {
+            fill.style.width = fill.dataset.pct + '%';
+          });
+        }
+        const mIndex = card.dataset.milestone;
+        const dot = document.querySelector('.milestone[data-m="' + mIndex + '"]');
+        if (dot) dot.classList.add('active');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
